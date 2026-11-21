@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Shadow DOM 测试页 - 链接直达助手</title>
+  <style>body { font: 14px/1.8 "Microsoft YaHei", sans-serif; max-width: 700px; margin: 40px auto; }</style>
+</head>
+<body>
+  <h1>Shadow DOM 支持测试</h1>
+  <p>页面用脚本创建了两种影子容器（外部默认不可见），各放入被包装的中转链接。</p>
+  <div id="open-host"></div>
+  <div id="closed-host"></div>
+  <script>
+    // 开放模式影子根
+    const openRoot = document.getElementById('open-host').attachShadow({ mode: 'open' });
+    openRoot.innerHTML = '<p>开放影子根内：</p><a href="https://link.zhihu.com/?target=https%3A%2F%2Fwww.example.com%2Fopen">开放影子内的知乎中转链接</a>';
+
+    // 关闭模式影子根（普通扫描完全看不到）
+    const closedRoot = document.getElementById('closed-host').attachShadow({ mode: 'closed' });
+    closedRoot.innerHTML =
+      '<p>关闭影子根内：</p>' +
+      '<a href="https://link.zhihu.com/?target=https%3A%2F%2Fwww.example.com%2Fclosed">关闭影子内的知乎中转链接</a>' +
+      '<p>纯文本网址 www.example.org 就在这里。</p>' +
+      '<a href="https://link.bilibili.com/?i=FakeEncryptedParam">关闭影子内的B站格式待解析链接</a>';
+
+    // 挂到 window 供自动化验证读取（测试专用，正式页面不会有）
+    window.__testOpenRoot = openRoot;
+    window.__testClosedRoot = closedRoot;
+  </script>
+</body>
+</html>

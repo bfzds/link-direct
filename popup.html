@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <span class="logo">⚡</span>
+    <h1>链接直达助手</h1>
+  </header>
+
+  <div class="row master">
+    <label for="enabled">启用插件</label>
+    <input type="checkbox" id="enabled" class="toggle">
+  </div>
+
+  <div class="group">
+    <div class="row">
+      <label for="skipRedirect">跳过中转页直达</label>
+      <input type="checkbox" id="skipRedirect" class="toggle">
+    </div>
+    <div class="row">
+      <label for="shortLink">短链接自动还原</label>
+      <input type="checkbox" id="shortLink" class="toggle">
+    </div>
+    <div class="row sub">
+      <label for="hoverResolve">悬停时预解析短链</label>
+      <input type="checkbox" id="hoverResolve" class="toggle">
+    </div>
+    <div class="row">
+      <label for="linkify">纯文本网址可点击</label>
+      <input type="checkbox" id="linkify" class="toggle">
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div id="stats" class="stats">正在读取…</div>
+  <div class="footer">想支持新站点？往 rules.js 里加一条规则即可，见 README。</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

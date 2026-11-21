@@ -1,0 +1,91 @@
+body {
+  width: 262px;
+  margin: 0;
+  font: 13px/1.5 -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  color: #1f2328;
+  background: #fff;
+  user-select: none;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px 6px;
+}
+
+.logo { font-size: 16px; }
+
+h1 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 16px;
+}
+
+.row.sub { padding-left: 30px; }
+
+.row.sub label { color: #6a737d; }
+
+.row.master { font-weight: 600; }
+
+label { cursor: pointer; }
+
+/* 开关样式 */
+.toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 34px;
+  height: 20px;
+  margin: 0;
+  border-radius: 10px;
+  background: #c8ccd0;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.toggle::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.toggle:checked { background: #2da44e; }
+.toggle:checked::before { transform: translateX(14px); }
+
+.toggle:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 8px 0 0;
+}
+
+.stats {
+  padding: 8px 16px;
+  background: #f6f8fa;
+  color: #57606a;
+  min-height: 18px;
+}
+
+.footer {
+  padding: 6px 16px 12px;
+  color: #9aa0a6;
+  font-size: 11px;
+}

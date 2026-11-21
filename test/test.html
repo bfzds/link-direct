@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>链接直达助手 - 测试页</title>
+  <style>
+    body { font: 14px/1.8 -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; color: #1f2328; }
+    h1 { font-size: 22px; }
+    h2 { font-size: 16px; margin-top: 32px; border-left: 4px solid #1a73e8; padding-left: 10px; }
+    .case { background: #f6f8fa; border-radius: 8px; padding: 12px 16px; margin: 10px 0; }
+    .expect { color: #57606a; font-size: 13px; margin-top: 4px; }
+    .expect::before { content: "预期："; color: #1a8837; font-weight: 600; }
+    code { background: #eef1f4; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+    .note { background: #fff8c5; border-radius: 8px; padding: 12px 16px; }
+  </style>
+</head>
+<body>
+  <h1>链接直达助手 - 测试页</h1>
+  <p>安装插件后打开本页，逐项核对下方行为。右侧状态栏（悬停链接时浏览器左下角）显示的地址是判断「是否改写成功」最直观的依据。</p>
+
+  <h2>功能A：跳过中转页直达</h2>
+  <div class="case">
+    <a href="https://link.zhihu.com/?target=https%3A%2F%2Fwww.example.com%2F">知乎格式的中转链接（指向 example.com）</a>
+    <div class="expect">悬停时状态栏直接显示 https://www.example.com/；单击后直达 example.com，不经过知乎确认页。</div>
+  </div>
+  <div class="case">
+    <a href="https://link.csdn.net/?target=https%3A%2F%2Fwww.example.org%2F">CSDN 格式的中转链接（指向 example.org）</a>
+    <div class="expect">同上，直达 example.org。</div>
+  </div>
+  <div class="case">
+    <a href="https://www.baidu.com/link?url=FakeEncryptedParam123" target="_blank">百度格式的 302 中转链接（示例，真实跳转需有效参数）</a>
+    <div class="expect">点击后后台先解析再打开；此示例参数无效，会退回原地址打开（属于预期的容错行为）。</div>
+  </div>
+  <div class="note">
+    中转确认页自动跳转的测法：在地址栏手动输入
+    <code>https://link.zhihu.com/?target=https%3A%2F%2Fwww.example.com%2F</code>
+    回车，页面应立即自动跳到 example.com，不停留在知乎确认页。
+  </div>
+
+  <h2>功能B：短链接自动还原</h2>
+  <div class="case">
+    <a href="https://bit.ly/349r2ZC">bit.ly 短链示例</a>
+    <div class="expect">点击后一步到达最终页面；若开启「悬停预解析」，悬停 1 秒左右 title 会显示真实地址。</div>
+  </div>
+  <div class="case">
+    <a href="https://t.cn/A6Ciwovi">t.cn 短链示例（微博短链可能随时间失效）</a>
+    <div class="expect">点击时后台解析真实地址后直达；短链失效时退回原地址打开。</div>
+  </div>
+
+  <h2>功能C：纯文本网址可点击</h2>
+  <div class="case">
+    <p>下面这段文字里的网址原本不是链接：</p>
+    <p>官方文档在 https://www.example.com/docs 处，镜像站点为 www.example.org，欢迎访问。</p>
+    <div class="expect">两个网址自动变成可点击链接（鼠标悬停变为手型，可单击打开）。</div>
+  </div>
+  <div class="case">
+    <p>以下内容不应被链接化：代码 <code>const url = "https://inside-code.example.com"</code>，以及不带点的普通文本（如 visit www page 或 call me later）。</p>
+    <div class="expect">代码块内和普通文本保持原样，不生成链接。</div>
+  </div>
+
+  <h2>动态内容（SPA 场景模拟）</h2>
+  <div class="case">
+    <button id="addBtn">点击插入一条动态中转链接</button>
+    <div id="dyn"></div>
+    <div class="expect">插入的链接约 0.2 秒后同样被改写，悬停可见真实地址。</div>
+  </div>
+
+  <script>
+    document.getElementById('addBtn').addEventListener('click', () => {
+      const a = document.createElement('a');
+      a.href = 'https://link.juejin.cn/?target=https%3A%2F%2Fwww.example.net%2F';
+      a.textContent = '掘金格式的动态中转链接（指向 example.net）';
+      document.getElementById('dyn').appendChild(a);
+      document.getElementById('dyn').appendChild(document.createElement('br'));
+    });
+  </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "链接直达助手",
   "description": "自动识别被网站包装的中转链接与短链接，点击一步直达真实地址；纯文本网址自动变成可点击链接。",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "minimum_chrome_version": "111",
   "permissions": [
     "storage",

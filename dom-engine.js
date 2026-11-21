@@ -29,13 +29,20 @@
   }
 
   /**
-   * 从中转链接的参数里提取真实地址。
-   * URLSearchParams 会先解码一层，个别站点存的是双重编码，最多再解一层；
-   * 结果必须是 http/https 开头的合法地址才算数。
+   * 从中转链接里提取真实地址。
+   * rawQuery 模式：目标地址直接是整个 query（如 pixiv jump.php?<编码URL>，无参数名）；
+   * 常规模式：目标地址在参数里（URLSearchParams 会先解码一层）。
+   * 个别站点存的是双重编码，最多再解一层；结果必须是 http/https 开头才算数。
    */
   function extractTarget(url, rule) {
-    const raw = url.searchParams.get(rule.param);
-    if (!raw) return null;
+    let raw;
+    if (rule.rawQuery) {
+      raw = url.search.slice(1); // 去掉开头的 ?，整个 query 就是目标
+      if (!raw) return null;
+    } else {
+      raw = url.searchParams.get(rule.param);
+      if (!raw) return null;
+    }
     let s = raw.trim();
     if (!/^https?:\/\//i.test(s)) {
       try { s = decodeURIComponent(s); } catch (e) { return null; }
@@ -66,7 +73,7 @@
     let kind = null;
     if (opts.skipRedirect !== false) {
       const rule = matchRedirectRule(url);
-      if (rule && rule.param) {
+      if (rule && (rule.param || rule.rawQuery)) {
         const target = extractTarget(url, rule);
         if (target && target !== a.href) {
           a.setAttribute('href', target);

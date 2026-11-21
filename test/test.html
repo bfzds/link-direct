@@ -31,6 +31,10 @@
     <a href="https://www.baidu.com/link?url=FakeEncryptedParam123" target="_blank">百度格式的 302 中转链接（示例，真实跳转需有效参数）</a>
     <div class="expect">点击后后台先解析再打开；此示例参数无效，会退回原地址打开（属于预期的容错行为）。</div>
   </div>
+  <div class="case">
+    <a href="https://www.pixiv.net/jump.php?https%3A%2F%2Fwwast.lanzouu.com%2FihLtY4ggr63i">pixiv 格式的跳转链接（目标直接是整个 query）</a>
+    <div class="expect">悬停时状态栏直接显示 https://wwast.lanzouu.com/ihLtY4ggr63i；点击直达，不经过 pixiv。</div>
+  </div>
   <div class="note">
     中转确认页自动跳转的测法：在地址栏手动输入
     <code>https://link.zhihu.com/?target=https%3A%2F%2Fwww.example.com%2F</code>

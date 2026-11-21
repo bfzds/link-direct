@@ -26,6 +26,10 @@
  *           插件会在点击时向该链接发一次请求，跟踪它的真实去向再直达。
  *           注意：这种方式每次点击会多一次网络请求，只对确实需要的站点使用。
  *
+ *   rawQuery 与 param 二选一。
+ *           目标地址直接是整个 query（没有参数名），如 pixiv 的
+ *           jump.php?https%3A%2F%2F目标地址。
+ *
  * 命中规则后，插件会做两件事：
  *   1. 把页面内该链接的 href 改写成真实地址（悬停时状态栏可见）；
  *   2. 如果你直接打开了中转页本身（比如手动点到了知乎的确认页），
@@ -56,6 +60,8 @@ window.LinkDirectRules = {
     { host: 'link.douban.com', resolve: true },
     // B站跳转服务：link.bilibili.com/?i=<密文>，点击时请求解析
     { host: 'link.bilibili.com', resolve: true },
+    // pixiv 跳转：jump.php?<编码后的目标URL>，目标直接是整个 query，无参数名
+    { host: 'pixiv.net', path: '/jump.php', rawQuery: true },
   ],
 
   /* ============================================================
